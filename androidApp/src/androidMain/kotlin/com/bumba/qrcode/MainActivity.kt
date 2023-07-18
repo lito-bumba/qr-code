@@ -1,6 +1,5 @@
-package com.myapplication
+package com.bumba.qrcode
 
-import MainView
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
