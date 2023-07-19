@@ -4,5 +4,5 @@ import androidx.compose.ui.graphics.ImageBitmap
 
 interface QRCodeHelper {
 
-    fun generate(text: String): ImageBitmap
+    fun generate(text: String, width: Int, height: Int): ImageBitmap
 }

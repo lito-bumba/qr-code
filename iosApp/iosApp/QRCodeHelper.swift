@@ -13,7 +13,7 @@ import CoreImage.CIFilterBuiltins
 
 class QRCodeHelperImpl: QRCodeHelperIos {
     
-    func generate(text: String) -> UIImage {
+    func generate(text: String, width: Int32, height: Int32) -> UIImage {
         let context = CIContext()
         let filter = CIFilter.qrCodeGenerator()
         let data = Data(text.utf8)
@@ -21,8 +21,8 @@ class QRCodeHelperImpl: QRCodeHelperIos {
         filter.setValue(data, forKey: "inputMessage")
         
         if let qrCodeImage = filter.outputImage {
-            let scaleX = 512.0 / qrCodeImage.extent.size.width
-            let scaleY = 512.0 / qrCodeImage.extent.size.height
+            let scaleX = CGFloat(width) / qrCodeImage.extent.size.width
+            let scaleY = CGFloat(height) / qrCodeImage.extent.size.height
             
             let transformedImage = qrCodeImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
             

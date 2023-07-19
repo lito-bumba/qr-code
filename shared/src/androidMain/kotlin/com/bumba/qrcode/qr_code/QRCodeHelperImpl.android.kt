@@ -9,14 +9,14 @@ import com.seiko.imageloader.asImageBitmap
 
 class QRCodeHelperImpl: QRCodeHelper {
 
-    override fun generate(text: String): ImageBitmap {
+    override fun generate(text: String, width: Int, height: Int): ImageBitmap {
         val writer = QRCodeWriter()
-        val bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 512, 512)
-        val width = bitMatrix.width
-        val height = bitMatrix.height
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-        for (x in 0 until width) {
-            for (y in 0 until height) {
+        val bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, width, height)
+        val sizeX = bitMatrix.width
+        val sizeY = bitMatrix.height
+        val bitmap = Bitmap.createBitmap(sizeX, sizeY, Bitmap.Config.RGB_565)
+        for (x in 0 until sizeX) {
+            for (y in 0 until sizeY) {
                 bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
             }
         }
