@@ -3,8 +3,11 @@ import SwiftUI
 import shared
 
 struct ComposeView: UIViewControllerRepresentable {
+    
+    let qrCodeHelper = QRCodeHelperImpl()
+    
     func makeUIViewController(context: Context) -> UIViewController {
-        Main_iosKt.MainViewController()
+        Main_iosKt.MainViewController(qrCodeHelperIos: qrCodeHelper)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
