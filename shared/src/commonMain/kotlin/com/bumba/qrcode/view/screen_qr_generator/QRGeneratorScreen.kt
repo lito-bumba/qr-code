@@ -6,7 +6,6 @@ import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -25,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.bumba.qrcode.util.Platform
 import com.bumba.qrcode.util.getPlatform
 import com.bumba.qrcode.view.icon.IconCustomArrowBack
+import com.bumba.qrcode.view.icon.IconRefresh
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,9 +75,9 @@ fun QRGeneratorScreen(
                                 viewModel.onGenerateQRCode(inputText)
                             }) {
                                 Icon(
-                                    imageVector = IconCustomArrowBack,
+                                    imageVector = IconRefresh,
                                     contentDescription = "Regenerate",
-                                    modifier = Modifier.size(200.dp),
+                                    modifier = Modifier.size(150.dp),
                                     tint = Color.Red
                                 )
                             }
