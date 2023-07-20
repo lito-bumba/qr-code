@@ -16,7 +16,7 @@ class QRGeneratorViewModel(private val qrCodeHelper: QRCodeHelper) {
         state.value = QRGeneratorState.Loading
 
         viewModelScope.launch {
-            delay(3000)
+            delay(2000)
             try {
                 val imageBitmap = qrCodeHelper.generate(text)
                 state.value = QRGeneratorState.Success(text, imageBitmap)
@@ -24,5 +24,9 @@ class QRGeneratorViewModel(private val qrCodeHelper: QRCodeHelper) {
                 state.value = QRGeneratorState.Error("${e.message}")
             }
         }
+    }
+
+    fun onShare() {
+
     }
 }

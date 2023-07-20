@@ -24,6 +24,7 @@ import com.bumba.qrcode.util.Platform
 import com.bumba.qrcode.util.getPlatform
 import com.bumba.qrcode.view.icon.IconCustomArrowBack
 import com.bumba.qrcode.view.icon.IconRefresh
+import com.bumba.qrcode.view.icon.IconShare
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +56,7 @@ fun QRGeneratorScreen(
             if (isQRCodeGenerated) {
                 inputText = ""
                 backgroundColor.value = MaterialTheme.colorScheme.primary
+
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -88,6 +90,20 @@ fun QRGeneratorScreen(
                             )
                         }
                     }
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
+                OutlinedButton(
+                    onClick = { viewModel.onShare() },
+                    border = BorderStroke(3.dp, Color.Black),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(contentColor = Color.Black)
+                ) {
+                    Icon(
+                        imageVector = IconShare,
+                        contentDescription = "Share Icon",
+                        modifier = Modifier.size(40.dp)
+                    )
                 }
             } else {
                 Text(
