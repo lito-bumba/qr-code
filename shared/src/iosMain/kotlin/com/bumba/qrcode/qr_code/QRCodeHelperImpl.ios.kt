@@ -11,7 +11,7 @@ interface QRCodeHelperIos {
 
 class QRCodeHelperImpl(private val qrCode: QRCodeHelperIos): QRCodeHelper {
 
-    override fun generate(text: String, width: Int, height: Int): ImageBitmap {
-        return qrCode.generate(text, width, height).toImageBitmap()
+    override fun generate(text: String): ImageBitmap {
+        return qrCode.generate(text, QRCodeSize.WIDTH, QRCodeSize.HEIGHT).toImageBitmap()
     }
 }
