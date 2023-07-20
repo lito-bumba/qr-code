@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -65,13 +64,7 @@ fun QRGeneratorScreen(
                 ) {
                     when (state) {
                         is QRGeneratorState.Loading -> {
-                            CircularProgressIndicator(
-                                color = MaterialTheme.colorScheme.primary,
-                                strokeWidth = 20.dp,
-                                modifier = Modifier.size(200.dp)
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .animateContentSize()
-                            )
+                            QRCodeShimmer()
                         }
                         is QRGeneratorState.Error -> {
                             IconButton(onClick = {
