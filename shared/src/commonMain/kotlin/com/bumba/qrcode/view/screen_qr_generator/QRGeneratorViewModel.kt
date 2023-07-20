@@ -16,7 +16,7 @@ class QRGeneratorViewModel(private val qrCodeHelper: QRCodeHelper) {
         state.value = QRGeneratorState.Loading
 
         viewModelScope.launch {
-            delay(2000)
+            delay(3000)
             try {
                 val imageBitmap = qrCodeHelper.generate(text)
                 state.value = QRGeneratorState.Success(text, imageBitmap)
