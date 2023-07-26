@@ -28,9 +28,7 @@ import com.bumba.qrcode.view.icon.IconShare
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QRGeneratorScreen(
-    viewModel: QRGeneratorViewModel
-) {
+fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
     val state = viewModel.state.value
     var inputText by rememberSaveable { mutableStateOf("") }
     var isInputTextError by rememberSaveable { mutableStateOf(false) }
@@ -68,6 +66,7 @@ fun QRGeneratorScreen(
                         is QRGeneratorState.Loading -> {
                             QRCodeShimmer()
                         }
+
                         is QRGeneratorState.Error -> {
                             IconButton(onClick = {
                                 viewModel.onGenerateQRCode(inputText)
@@ -80,6 +79,7 @@ fun QRGeneratorScreen(
                                 )
                             }
                         }
+
                         is QRGeneratorState.Success -> {
                             Image(
                                 bitmap = state.qrCode,
@@ -94,7 +94,10 @@ fun QRGeneratorScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
                 OutlinedButton(
-                    onClick = { viewModel.onShare() },
+                    onClick = {
+                        if (state is QRGeneratorState.Success)
+                            viewModel.onShare(state.qrCode)
+                    },
                     border = BorderStroke(3.dp, Color.Black),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(contentColor = Color.Black)

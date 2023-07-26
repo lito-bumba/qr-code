@@ -3,11 +3,24 @@ package com.bumba.qrcode.util
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import kotlinx.cinterop.get
-import org.jetbrains.skia.*
+import org.jetbrains.skia.ColorAlphaType
+import org.jetbrains.skia.ColorSpace
+import org.jetbrains.skia.ColorType
+import org.jetbrains.skia.Image
+import org.jetbrains.skia.ImageInfo
 import platform.CoreFoundation.CFDataGetBytePtr
 import platform.CoreFoundation.CFDataGetLength
 import platform.CoreFoundation.CFRelease
-import platform.CoreGraphics.*
+import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
+import platform.CoreGraphics.CGDataProviderCopyData
+import platform.CoreGraphics.CGImageAlphaInfo
+import platform.CoreGraphics.CGImageCreateCopyWithColorSpace
+import platform.CoreGraphics.CGImageGetAlphaInfo
+import platform.CoreGraphics.CGImageGetBytesPerRow
+import platform.CoreGraphics.CGImageGetDataProvider
+import platform.CoreGraphics.CGImageGetHeight
+import platform.CoreGraphics.CGImageGetWidth
+import platform.CoreGraphics.CGImageRelease
 import platform.UIKit.UIImage
 
 private fun UIImage.toSkiaImage(): Image? {
@@ -23,12 +36,18 @@ private fun UIImage.toSkiaImage(): Image? {
     val data = CGDataProviderCopyData(CGImageGetDataProvider(imageRef))
     val bytePointer = CFDataGetBytePtr(data)
     val length = CFDataGetLength(data)
-    val alphaInfo = CGImageGetAlphaInfo(imageRef)
 
-    val alphaType = when (alphaInfo) {
-        CGImageAlphaInfo.kCGImageAlphaPremultipliedFirst, CGImageAlphaInfo.kCGImageAlphaPremultipliedLast -> ColorAlphaType.PREMUL
-        CGImageAlphaInfo.kCGImageAlphaFirst, CGImageAlphaInfo.kCGImageAlphaLast -> ColorAlphaType.UNPREMUL
-        CGImageAlphaInfo.kCGImageAlphaNone, CGImageAlphaInfo.kCGImageAlphaNoneSkipFirst, CGImageAlphaInfo.kCGImageAlphaNoneSkipLast -> ColorAlphaType.OPAQUE
+    val alphaType = when (CGImageGetAlphaInfo(imageRef)) {
+        CGImageAlphaInfo.kCGImageAlphaPremultipliedFirst,
+        CGImageAlphaInfo.kCGImageAlphaPremultipliedLast -> ColorAlphaType.PREMUL
+
+        CGImageAlphaInfo.kCGImageAlphaFirst,
+        CGImageAlphaInfo.kCGImageAlphaLast -> ColorAlphaType.UNPREMUL
+
+        CGImageAlphaInfo.kCGImageAlphaNone,
+        CGImageAlphaInfo.kCGImageAlphaNoneSkipFirst,
+        CGImageAlphaInfo.kCGImageAlphaNoneSkipLast -> ColorAlphaType.OPAQUE
+
         else -> ColorAlphaType.UNKNOWN
     }
 

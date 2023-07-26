@@ -9,7 +9,6 @@ plugins {
 
 kotlin {
     android()
-
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -33,15 +32,17 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 
                 implementation("io.github.qdsfdhvh:image-loader:1.2.10")
                 api("com.arkivanov.decompose:decompose:1.0.0-compose-experimental")
                 api("com.arkivanov.decompose:extensions-compose-jetbrains:1.0.0-compose-experimental")
                 implementation("com.arkivanov.essenty:lifecycle:1.0.0")
-
-                implementation("com.google.zxing:core:3.4.1")
             }
         }
         val androidMain by getting {
@@ -49,6 +50,7 @@ kotlin {
                 api("androidx.activity:activity-compose:1.6.1")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
+                implementation("com.google.zxing:core:3.4.1")
             }
         }
         val iosX64Main by getting
