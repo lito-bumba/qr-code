@@ -48,7 +48,7 @@ fun QRCodeShimmer() {
 private fun ShimmerItem(brush: Brush) {
     Surface(
         color = Color.Transparent,
-        modifier = Modifier.alpha(.5f)
+        modifier = Modifier.alpha(.3f)
     ) {
         Box(
             contentAlignment = Alignment.Center,

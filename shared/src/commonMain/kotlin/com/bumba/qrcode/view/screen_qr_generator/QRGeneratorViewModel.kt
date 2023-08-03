@@ -1,6 +1,7 @@
 package com.bumba.qrcode.view.screen_qr_generator
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.ImageBitmap
 import com.bumba.qrcode.qr_code.QRCodeHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,13 +17,19 @@ class QRGeneratorViewModel(private val qrCodeHelper: QRCodeHelper) {
         state.value = QRGeneratorState.Loading
 
         viewModelScope.launch {
-            delay(3000)
+            delay(2000)
             try {
                 val imageBitmap = qrCodeHelper.generate(text)
                 state.value = QRGeneratorState.Success(text, imageBitmap)
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 state.value = QRGeneratorState.Error("${e.message}")
             }
+        }
+    }
+
+    fun onShare(picture: ImageBitmap) {
+        viewModelScope.launch {
+            qrCodeHelper.share(picture)
         }
     }
 }

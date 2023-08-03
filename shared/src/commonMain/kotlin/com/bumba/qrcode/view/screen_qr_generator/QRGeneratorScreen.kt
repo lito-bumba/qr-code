@@ -24,12 +24,11 @@ import com.bumba.qrcode.util.Platform
 import com.bumba.qrcode.util.getPlatform
 import com.bumba.qrcode.view.icon.IconCustomArrowBack
 import com.bumba.qrcode.view.icon.IconRefresh
+import com.bumba.qrcode.view.icon.IconShare
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QRGeneratorScreen(
-    viewModel: QRGeneratorViewModel
-) {
+fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
     val state = viewModel.state.value
     var inputText by rememberSaveable { mutableStateOf("") }
     var isInputTextError by rememberSaveable { mutableStateOf(false) }
@@ -55,6 +54,7 @@ fun QRGeneratorScreen(
             if (isQRCodeGenerated) {
                 inputText = ""
                 backgroundColor.value = MaterialTheme.colorScheme.primary
+
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -66,6 +66,7 @@ fun QRGeneratorScreen(
                         is QRGeneratorState.Loading -> {
                             QRCodeShimmer()
                         }
+
                         is QRGeneratorState.Error -> {
                             IconButton(onClick = {
                                 viewModel.onGenerateQRCode(inputText)
@@ -78,6 +79,7 @@ fun QRGeneratorScreen(
                                 )
                             }
                         }
+
                         is QRGeneratorState.Success -> {
                             Image(
                                 bitmap = state.qrCode,
@@ -88,6 +90,23 @@ fun QRGeneratorScreen(
                             )
                         }
                     }
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
+                OutlinedButton(
+                    onClick = {
+                        if (state is QRGeneratorState.Success)
+                            viewModel.onShare(state.qrCode)
+                    },
+                    border = BorderStroke(3.dp, Color.Black),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(contentColor = Color.Black)
+                ) {
+                    Icon(
+                        imageVector = IconShare,
+                        contentDescription = "Share Icon",
+                        modifier = Modifier.size(40.dp)
+                    )
                 }
             } else {
                 Text(
