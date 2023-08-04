@@ -9,3 +9,7 @@ object Platform {
     const val ANDROID = "Android"
     const val IOS = "Ios"
 }
+
+object FileLocation {
+    const val FOLDER_NAME = "QR"
+}

@@ -8,4 +8,6 @@ interface QRCodeHelper {
 
     suspend fun share(imageBitmap: ImageBitmap)
 
+    suspend fun save(imageBitmap: ImageBitmap)
+
 }

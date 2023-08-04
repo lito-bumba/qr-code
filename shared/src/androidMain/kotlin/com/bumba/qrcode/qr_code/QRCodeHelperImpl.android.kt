@@ -6,8 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
+import com.bumba.qrcode.storage.getIntentToShare
+import com.bumba.qrcode.storage.saveMediaToStorage
 import com.bumba.qrcode.util.QRCodeSize
-import com.bumba.qrcode.util.getUri
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import com.seiko.imageloader.asImageBitmap
@@ -15,9 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class QRCodeHelperImpl(
-    private val context: Context
-) : QRCodeHelper {
+class QRCodeHelperImpl(private val context: Context) : QRCodeHelper {
 
     override fun generate(text: String): ImageBitmap {
         val writer = QRCodeWriter()
@@ -36,24 +35,15 @@ class QRCodeHelperImpl(
 
     override suspend fun share(imageBitmap: ImageBitmap) {
         withContext(Dispatchers.Main) {
-            val intentShare = async { getIntentShare(imageBitmap) }
+            val intentShare = async { getIntentToShare(context, imageBitmap) }
             context.startActivity(Intent.createChooser(intentShare.await(), null))
         }
     }
 
-    private suspend fun getIntentShare(imageBitmap: ImageBitmap): Intent {
-        val bitmap = imageBitmap.asAndroidBitmap()
-        return withContext(Dispatchers.IO) {
-            Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(
-                    Intent.EXTRA_STREAM,
-                    bitmap.getUri(context)
-                )
-                putExtra(Intent.EXTRA_TEXT, "QR Code")
-                type = "image/png"
-                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            }
-        }
+    override suspend fun save(imageBitmap: ImageBitmap) {
+        saveMediaToStorage(
+            context = context,
+            bitmap = imageBitmap.asAndroidBitmap()
+        )
     }
 }

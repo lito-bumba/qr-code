@@ -33,4 +33,6 @@ class QRCodeHelperImpl: QRCodeHelperIos {
         
         return UIImage(systemName: "xmark") ?? UIImage()
     }
+    
+    
 }

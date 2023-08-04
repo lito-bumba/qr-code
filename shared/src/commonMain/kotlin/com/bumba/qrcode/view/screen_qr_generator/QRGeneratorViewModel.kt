@@ -32,4 +32,10 @@ class QRGeneratorViewModel(private val qrCodeHelper: QRCodeHelper) {
             qrCodeHelper.share(picture)
         }
     }
+
+    fun onSave(imageBitmap: ImageBitmap){
+        viewModelScope.launch {
+            qrCodeHelper.save(imageBitmap)
+        }
+    }
 }

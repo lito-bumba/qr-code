@@ -39,4 +39,8 @@ class QRCodeHelperImpl(
             completion = null,
         )
     }
+
+    override suspend fun save(imageBitmap: ImageBitmap) {
+
+    }
 }

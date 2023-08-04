@@ -1,15 +1,14 @@
 # QR Code App
-A Simple App to generate, store and scan QR Code using Compose Multiplatform for Android and Ios.
+App that allow you working with QR Code using Kotlin MultiPlatform(KMP) and Compose Multiplatform for Android and Ios.
 
 ## Features
 
    ```text
    [✓] QR Code Generator
    [✓] Share QR Code
-   [ ] Save as Image in Gallery
    [ ] Store Locally QR Code Data
    [ ] QR Code Scanner
    ```
 
 ## Screenshot
-<img src="screenshot/screen_styled.png" width="600px" height="500px">
+<img src="screenshot/new_screen_style.png" width="600px" height="500px">
