@@ -8,8 +8,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
@@ -20,12 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bumba.qrcode.util.Platform
 import com.bumba.qrcode.util.getPlatform
 import com.bumba.qrcode.view.icon.BackButton
+import com.bumba.qrcode.view.icon.CircularButton
 import com.bumba.qrcode.view.icon.iconShare
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +37,13 @@ fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
 
     Scaffold(
         topBar = {
-            ScreenTopBar(isNavigationEnable = isQRCodeGenerated) {
+            ScreenTopBar(
+                isNavigationEnable = isQRCodeGenerated,
+                onShareClick = {
+                    if (state is QRGeneratorState.Success)
+                        viewModel.onShare(state.qrCode)
+                }
+            ) {
                 isQRCodeGenerated = false
                 backgroundColor.value = Color.White
             }
@@ -93,30 +97,7 @@ fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
                         }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(32.dp))
-                OutlinedButton(
-                    onClick = {
-                        if (state is QRGeneratorState.Success)
-                            viewModel.onShare(state.qrCode)
-                    },
-                    border = BorderStroke(3.dp, Color.Black),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(contentColor = Color.Black)
-                ) {
-                    Icon(
-                        imageVector = iconShare,
-                        contentDescription = "Share Icon",
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
             } else {
-                Text(
-                    text = "Gerar QR Code",
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(48.dp))
                 OutlinedTextField(
                     value = inputText,
                     onValueChange = {
@@ -137,16 +118,8 @@ fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
                         }
                     },
                     isError = isInputTextError,
-                    keyboardActions = KeyboardActions(onGo = {
-                        if (inputText.isBlank()) {
-                            isInputTextError = inputText.isBlank()
-                            return@KeyboardActions
-                        }
-                        viewModel.onGenerateQRCode(inputText)
-                        isQRCodeGenerated = true
-                    }),
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Go),
-                    modifier = Modifier.fillMaxWidth(1f)
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(10)
                 )
                 Spacer(modifier = Modifier.height(32.dp))
                 Button(
@@ -158,7 +131,7 @@ fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
                         viewModel.onGenerateQRCode(inputText)
                         isQRCodeGenerated = true
                     },
-                    shape = RoundedCornerShape(10.dp),
+                    shape = RoundedCornerShape(25),
                     modifier = Modifier.height(50.dp).width(150.dp)
                 ) {
                     Text(
@@ -171,11 +144,11 @@ fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ScreenTopBar(
     isNavigationEnable: Boolean,
+    onShareClick: () -> Unit,
     onNavigate: () -> Unit
 ) {
     TopAppBar(
@@ -199,6 +172,18 @@ private fun ScreenTopBar(
                 exit = slideOutHorizontally()
             ) {
                 BackButton(onNavigate)
+            }
+        },
+        actions = {
+            AnimatedVisibility(
+                visible = isNavigationEnable,
+                enter = slideInHorizontally { it },
+                exit = slideOutHorizontally { it }
+            ) {
+                CircularButton(
+                    imageVector = iconShare,
+                    onClick = onShareClick
+                )
             }
         },
         colors = TopAppBarDefaults.largeTopAppBarColors(

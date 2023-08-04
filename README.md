@@ -6,7 +6,6 @@ A Simple App to generate, store and scan QR Code using Compose Multiplatform for
    ```text
    [✓] QR Code Generator
    [✓] Share QR Code
-   [ ] Save as Image in Gallery
    [ ] Store Locally QR Code Data
    [ ] QR Code Scanner
    ```
