@@ -1,4 +1,4 @@
-package com.bumba.qrcode.view.icon
+package com.bumba.qrcode.presentation.icon
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

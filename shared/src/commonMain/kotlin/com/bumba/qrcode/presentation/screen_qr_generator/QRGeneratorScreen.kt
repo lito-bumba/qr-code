@@ -1,4 +1,4 @@
-package com.bumba.qrcode.view.screen_qr_generator
+package com.bumba.qrcode.presentation.screen_qr_generator
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -20,11 +20,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.bumba.qrcode.util.Platform
-import com.bumba.qrcode.util.getPlatform
-import com.bumba.qrcode.view.icon.BackButton
-import com.bumba.qrcode.view.icon.CircularButton
-import com.bumba.qrcode.view.icon.iconShare
+import com.bumba.qrcode.presentation.util.Platform
+import com.bumba.qrcode.presentation.util.getPlatform
+import com.bumba.qrcode.presentation.icon.BackButton
+import com.bumba.qrcode.presentation.icon.CircularButton
+import com.bumba.qrcode.presentation.icon.iconShare
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

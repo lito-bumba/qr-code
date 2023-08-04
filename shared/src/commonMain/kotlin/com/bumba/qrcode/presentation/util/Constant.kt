@@ -1,4 +1,4 @@
-package com.bumba.qrcode.util
+package com.bumba.qrcode.presentation.util
 
 object QRCodeSize {
     const val WIDTH = 512

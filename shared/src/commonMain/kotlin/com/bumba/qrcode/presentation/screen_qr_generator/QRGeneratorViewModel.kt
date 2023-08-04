@@ -1,8 +1,8 @@
-package com.bumba.qrcode.view.screen_qr_generator
+package com.bumba.qrcode.presentation.screen_qr_generator
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
-import com.bumba.qrcode.qr_code.QRCodeHelper
+import com.bumba.qrcode.domain.QRCodeHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

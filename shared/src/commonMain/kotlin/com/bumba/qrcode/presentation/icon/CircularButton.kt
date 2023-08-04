@@ -1,4 +1,4 @@
-package com.bumba.qrcode.view.icon
+package com.bumba.qrcode.presentation.icon
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -17,8 +17,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.bumba.qrcode.util.Platform.ANDROID
-import com.bumba.qrcode.util.getPlatform
+import com.bumba.qrcode.presentation.util.Platform.ANDROID
+import com.bumba.qrcode.presentation.util.getPlatform
 
 @Composable
 fun CircularButton(

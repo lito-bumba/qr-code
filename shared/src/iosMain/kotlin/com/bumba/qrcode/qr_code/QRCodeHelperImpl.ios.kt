@@ -1,8 +1,9 @@
 package com.bumba.qrcode.qr_code
 
 import androidx.compose.ui.graphics.ImageBitmap
-import com.bumba.qrcode.util.QRCodeSize
-import com.bumba.qrcode.util.toImageBitmap
+import com.bumba.qrcode.domain.QRCodeHelper
+import com.bumba.qrcode.presentation.util.QRCodeSize
+import com.bumba.qrcode.presentation.util.toImageBitmap
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIImage

@@ -6,9 +6,10 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
+import com.bumba.qrcode.domain.QRCodeHelper
 import com.bumba.qrcode.storage.getIntentToShare
 import com.bumba.qrcode.storage.saveMediaToStorage
-import com.bumba.qrcode.util.QRCodeSize
+import com.bumba.qrcode.presentation.util.QRCodeSize
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import com.seiko.imageloader.asImageBitmap

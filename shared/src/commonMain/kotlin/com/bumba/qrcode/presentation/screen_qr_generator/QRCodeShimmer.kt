@@ -1,4 +1,4 @@
-package com.bumba.qrcode.view.screen_qr_generator
+package com.bumba.qrcode.presentation.screen_qr_generator
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background

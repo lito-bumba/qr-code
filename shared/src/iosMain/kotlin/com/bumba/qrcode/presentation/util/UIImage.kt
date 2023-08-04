@@ -1,4 +1,4 @@
-package com.bumba.qrcode.util
+package com.bumba.qrcode.presentation.util
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap

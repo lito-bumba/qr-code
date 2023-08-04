@@ -1,4 +1,4 @@
-package com.bumba.qrcode.qr_code
+package com.bumba.qrcode.domain
 
 import androidx.compose.ui.graphics.ImageBitmap
 

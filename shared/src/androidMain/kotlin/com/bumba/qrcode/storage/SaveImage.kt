@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import com.bumba.qrcode.util.FileLocation
+import com.bumba.qrcode.presentation.util.FileLocation
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream

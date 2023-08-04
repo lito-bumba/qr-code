@@ -1,0 +1,27 @@
+CREATE TABLE qrCodeEntity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    info TEXT NOT NULL,
+    createdAt INTEGER NOT NULL
+);
+
+getQrCodes:
+SELECT *
+FROM qrCodeEntity
+ORDER BY createdAt DESC;
+
+insertQrCode:
+INSERT OR REPLACE
+INTO qrCodeEntity(
+    id,
+    info,
+    createdAt
+) VALUES (?, ?, ?);
+
+deleteQrCode:
+DELETE FROM qrCodeEntity
+WHERE id = :id;
+
+getQrCodeById:
+SELECT *
+FROM qrCodeEntity
+WHERE id = :id;

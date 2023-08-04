@@ -1,4 +1,4 @@
-package com.bumba.qrcode.view.navigation
+package com.bumba.qrcode.presentation.navigation
 
 sealed interface Screen {
     object QRCodeGeneratorScreen: Screen
