@@ -38,11 +38,10 @@ kotlin {
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
                 implementation("com.squareup.sqldelight:coroutines-extensions:1.5.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+                //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
                 implementation("io.github.qdsfdhvh:image-loader:1.2.10")
-                api("com.arkivanov.decompose:decompose:1.0.0-compose-experimental")
-                api("com.arkivanov.decompose:extensions-compose-jetbrains:1.0.0-compose-experimental")
-                implementation("com.arkivanov.essenty:lifecycle:1.0.0")
+                api("dev.icerock.moko:mvvm-core:0.16.1")
+                api("dev.icerock.moko:mvvm-compose:0.16.1")
             }
         }
         val androidMain by getting {
@@ -91,8 +90,8 @@ android {
 }
 
 sqldelight {
-    database("ContactDatabase"){
-        packageName = "com.bumba.contactapp.database"
+    database("QrCodeDatabase"){
+        packageName = "com.bumba.qrcode.database"
         sourceFolders = listOf("sqldelight")
     }
 }

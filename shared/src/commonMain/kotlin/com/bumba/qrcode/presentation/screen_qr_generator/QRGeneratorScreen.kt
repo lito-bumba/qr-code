@@ -20,15 +20,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.bumba.qrcode.di.AppModule
 import com.bumba.qrcode.presentation.util.Platform
 import com.bumba.qrcode.presentation.util.getPlatform
 import com.bumba.qrcode.presentation.icon.BackButton
 import com.bumba.qrcode.presentation.icon.CircularButton
 import com.bumba.qrcode.presentation.icon.iconShare
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
+fun QRGeneratorScreen(appModule: AppModule) {
+    val viewModel = getViewModel(Unit, viewModelFactory {
+        QRGeneratorViewModel(
+            qrCodeHelper = appModule.qrCodeHelper,
+            qrCodeRepository = appModule.qrCodeRepository
+        )
+    })
     val state = viewModel.state.value
     var inputText by rememberSaveable { mutableStateOf("") }
     var isInputTextError by rememberSaveable { mutableStateOf(false) }
@@ -128,6 +137,7 @@ fun QRGeneratorScreen(viewModel: QRGeneratorViewModel) {
                             isInputTextError = inputText.isBlank()
                             return@Button
                         }
+
                         viewModel.onGenerateQRCode(inputText)
                         isQRCodeGenerated = true
                     },

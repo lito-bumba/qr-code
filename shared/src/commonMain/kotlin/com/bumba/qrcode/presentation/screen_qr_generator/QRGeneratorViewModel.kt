@@ -1,28 +1,32 @@
 package com.bumba.qrcode.presentation.screen_qr_generator
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
-import com.bumba.qrcode.domain.QRCodeHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.bumba.qrcode.domain.QrCodeHelper
+import com.bumba.qrcode.domain.QrCodeRepository
+import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class QRGeneratorViewModel(private val qrCodeHelper: QRCodeHelper) {
-    private val viewModelScope = CoroutineScope(Dispatchers.Main)
-    var state = mutableStateOf<QRGeneratorState>(QRGeneratorState.Loading)
-        private set
+class QRGeneratorViewModel(
+    private val qrCodeHelper: QrCodeHelper,
+    private val qrCodeRepository: QrCodeRepository
+): ViewModel() {
+    private var _state = mutableStateOf<QRGeneratorState>(QRGeneratorState.Loading)
+    val state: State<QRGeneratorState> = _state
 
-    fun onGenerateQRCode(text: String) {
-        state.value = QRGeneratorState.Loading
+    fun onGenerateQRCode(info: String) {
+        _state.value = QRGeneratorState.Loading
 
         viewModelScope.launch {
             delay(2000)
             try {
-                val imageBitmap = qrCodeHelper.generate(text)
-                state.value = QRGeneratorState.Success(text, imageBitmap)
+                val imageBitmap = qrCodeHelper.generate(info)
+                qrCodeRepository.insertQrCode(info)
+                _state.value = QRGeneratorState.Success(info, imageBitmap)
             } catch (e: Exception) {
-                state.value = QRGeneratorState.Error("${e.message}")
+                _state.value = QRGeneratorState.Error("${e.message}")
             }
         }
     }
@@ -30,12 +34,6 @@ class QRGeneratorViewModel(private val qrCodeHelper: QRCodeHelper) {
     fun onShare(picture: ImageBitmap) {
         viewModelScope.launch {
             qrCodeHelper.share(picture)
-        }
-    }
-
-    fun onSave(imageBitmap: ImageBitmap){
-        viewModelScope.launch {
-            qrCodeHelper.save(imageBitmap)
         }
     }
 }

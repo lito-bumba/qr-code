@@ -1,7 +1,6 @@
-package com.bumba.qrcode.qr_code
+package com.bumba.qrcode.domain
 
 import androidx.compose.ui.graphics.ImageBitmap
-import com.bumba.qrcode.domain.QRCodeHelper
 import com.bumba.qrcode.presentation.util.QRCodeSize
 import com.bumba.qrcode.presentation.util.toImageBitmap
 import platform.UIKit.UIActivityViewController
@@ -13,9 +12,9 @@ interface QRCodeHelperIos {
     fun generate(text: String, width: Int, height: Int): UIImage
 }
 
-class QRCodeHelperImpl(
+class QrCodeHelperImpl(
     private val qrCode: QRCodeHelperIos
-) : QRCodeHelper {
+) : QrCodeHelper {
 
     private var uiImage: UIImage? = null
 
@@ -28,10 +27,7 @@ class QRCodeHelperImpl(
         val window = UIApplication.sharedApplication.windows.last() as? UIWindow
         val currentViewController = window?.rootViewController
         val activityViewController = UIActivityViewController(
-            activityItems = listOf(
-                uiImage,
-                "Qr Code"
-            ),
+            activityItems = listOf(uiImage, "Qr Code"),
             applicationActivities = null
         )
         currentViewController?.presentViewController(
@@ -39,9 +35,5 @@ class QRCodeHelperImpl(
             animated = true,
             completion = null,
         )
-    }
-
-    override suspend fun save(imageBitmap: ImageBitmap) {
-
     }
 }
