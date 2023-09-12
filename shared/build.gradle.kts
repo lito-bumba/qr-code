@@ -3,6 +3,7 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("com.squareup.sqldelight")
 }
 
 kotlin {
@@ -34,13 +35,13 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
 
+                implementation("com.squareup.sqldelight:runtime:1.5.5")
+                implementation("com.squareup.sqldelight:coroutines-extensions:1.5.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-
+                //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
                 implementation("io.github.qdsfdhvh:image-loader:1.2.10")
-                api("com.arkivanov.decompose:decompose:1.0.0-compose-experimental")
-                api("com.arkivanov.decompose:extensions-compose-jetbrains:1.0.0-compose-experimental")
-                implementation("com.arkivanov.essenty:lifecycle:1.0.0")
+                api("dev.icerock.moko:mvvm-core:0.16.1")
+                api("dev.icerock.moko:mvvm-compose:0.16.1")
             }
         }
         val androidMain by getting {
@@ -49,12 +50,16 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
                 implementation("com.google.zxing:core:3.4.1")
+                implementation("com.squareup.sqldelight:android-driver:1.5.5")
             }
         }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
+            dependencies {
+                implementation("com.squareup.sqldelight:native-driver:1.5.5")
+            }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -81,5 +86,12 @@ android {
     }
     kotlin {
         jvmToolchain(11)
+    }
+}
+
+sqldelight {
+    database("QrCodeDatabase"){
+        packageName = "com.bumba.qrcode.database"
+        sourceFolders = listOf("sqldelight")
     }
 }

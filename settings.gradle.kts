@@ -1,5 +1,4 @@
 rootProject.name = "QRCode"
-
 include(":androidApp")
 include(":shared")
 
@@ -17,7 +16,6 @@ pluginManagement {
 
         kotlin("jvm").version(kotlinVersion)
         kotlin("multiplatform").version(kotlinVersion)
-        kotlin("plugin.serialization").version(kotlinVersion)
         kotlin("android").version(kotlinVersion)
 
         id("com.android.application").version(agpVersion)
