@@ -13,7 +13,6 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import com.seiko.imageloader.asImageBitmap
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
@@ -37,8 +36,8 @@ class QrCodeHelperImpl(private val context: Context) : QrCodeHelper {
 
     override suspend fun share(imageBitmap: ImageBitmap) {
         withContext(Dispatchers.Main) {
-            val intentShare = async { getIntentShare(imageBitmap) }
-            context.startActivity(Intent.createChooser(intentShare.await(), null))
+            val intentShare = getIntentShare(imageBitmap)
+            context.startActivity(Intent.createChooser(intentShare, null))
         }
     }
 

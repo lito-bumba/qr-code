@@ -1,4 +1,4 @@
-package com.bumba.qrcode.presentation.icon
+package com.bumba.qrcode.presentation.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.IosShare

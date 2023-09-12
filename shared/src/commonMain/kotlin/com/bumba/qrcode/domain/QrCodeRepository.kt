@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface QrCodeRepository {
 
-    fun getQrCodes(): Flow<List<QrCode>>
+    fun getQrCodes(): Flow<List<QrCodeModel>>
 
     suspend fun insertQrCode(info: String)
 

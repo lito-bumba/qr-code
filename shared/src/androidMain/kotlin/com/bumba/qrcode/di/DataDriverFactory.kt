@@ -15,5 +15,4 @@ actual class DataDriverFactory(
             "qrcode.db"
         )
     }
-
 }

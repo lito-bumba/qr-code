@@ -1,4 +1,4 @@
-package com.bumba.qrcode.presentation.icon
+package com.bumba.qrcode.presentation.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -56,7 +56,7 @@ fun CircularButton(
             Icon(
                 imageVector = imageVector,
                 contentDescription = null,
-                modifier = Modifier.size(34.dp),
+                modifier = Modifier.size(30.dp),
                 tint = Color.White
             )
         },
@@ -68,7 +68,8 @@ fun CircularButton(
 @Composable
 fun BackButton(onClick: () -> Unit) {
     CircularButton(
-        imageVector = if (getPlatform() == ANDROID) Icons.Default.ArrowBack else Icons.Default.ArrowBackIosNew,
+        imageVector = if (getPlatform() == ANDROID)
+            Icons.Default.ArrowBack else Icons.Default.ArrowBackIosNew,
         onClick = onClick
     )
 }

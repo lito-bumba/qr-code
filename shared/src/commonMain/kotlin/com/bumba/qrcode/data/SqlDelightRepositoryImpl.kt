@@ -1,7 +1,7 @@
 package com.bumba.qrcode.data
 
 import com.bumba.qrcode.database.QrCodeDatabase
-import com.bumba.qrcode.domain.QrCode
+import com.bumba.qrcode.domain.QrCodeModel
 import com.bumba.qrcode.domain.QrCodeRepository
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
@@ -14,7 +14,7 @@ class SqlDelightRepositoryImpl(
 ) : QrCodeRepository {
 
     private val queries = db.qrcodeQueries
-    override fun getQrCodes(): Flow<List<QrCode>> {
+    override fun getQrCodes(): Flow<List<QrCodeModel>> {
         return queries
             .getQrCodes()
             .asFlow()

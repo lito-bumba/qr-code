@@ -7,9 +7,8 @@ import com.bumba.qrcode.domain.QrCodeHelper
 import com.bumba.qrcode.domain.QrCodeHelperImpl
 import com.bumba.qrcode.domain.QrCodeRepository
 
-actual class AppModule(
-    private val qrCodeHelperIos: QRCodeHelperIos
-) {
+actual class AppModule(qrCodeHelperIos: QRCodeHelperIos) {
+
     actual val qrCodeRepository: QrCodeRepository by lazy {
         SqlDelightRepositoryImpl(
             db = QrCodeDatabase(
@@ -17,7 +16,6 @@ actual class AppModule(
             )
         )
     }
-    actual val qrCodeHelper: QrCodeHelper by lazy {
-        QrCodeHelperImpl(qrCodeHelperIos)
-    }
+
+    actual val qrCodeHelper: QrCodeHelper = QrCodeHelperImpl(qrCodeHelperIos)
 }
