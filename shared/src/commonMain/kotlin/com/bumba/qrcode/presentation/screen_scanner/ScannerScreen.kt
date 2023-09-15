@@ -1,18 +1,16 @@
 package com.bumba.qrcode.presentation.screen_scanner
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import com.bumba.qrcode.presentation.Screen
 import dev.icerock.moko.permissions.compose.BindEffect
 
 @Composable
 fun QRCodeScannerScreen(
+    screenNavState: MutableState<Screen>,
     viewModel: ScannerViewModel
 ) {
     BindEffect(viewModel.permissionsController)
@@ -21,11 +19,7 @@ fun QRCodeScannerScreen(
         viewModel.onButtonClick()
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Text(text = "QR Code Scanner", style = MaterialTheme.typography.titleLarge)
+    QRCodeScanner(Modifier.fillMaxSize()){
+
     }
 }

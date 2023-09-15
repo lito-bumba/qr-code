@@ -57,7 +57,7 @@ fun NavScreen(appModule: AppModule) {
     when (screenNavState.value) {
         is Screen.QrCodeViewerScreen -> QRCodeViewer(screenNavState)
         is Screen.HistoryScreen -> HistoryScreen(screenNavState, historyViewModel)
-        is Screen.QRCodeScanner -> QRCodeScannerScreen(scannerViewModel)
+        is Screen.QRCodeScanner -> QRCodeScannerScreen(screenNavState, scannerViewModel)
         else -> MainScreen(screenNavState, generator)
     }
 }
