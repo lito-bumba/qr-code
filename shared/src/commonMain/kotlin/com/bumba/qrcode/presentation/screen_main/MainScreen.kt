@@ -9,6 +9,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -43,6 +44,19 @@ fun MainScreen(
                             qrCodeViewModel.onShare(qrCodeImage)
                         }
                 }
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                shape = RoundedCornerShape(20),
+                onClick = {
+                    screenNavState.value = Screen.QRCodeScanner
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Camera,
+                    contentDescription = "Camera Icon"
+                )
             }
         },
         containerColor = Color.White

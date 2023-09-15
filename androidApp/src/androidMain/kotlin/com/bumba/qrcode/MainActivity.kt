@@ -10,7 +10,6 @@ import com.bumba.qrcode.presentation.NavScreen
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             val context = LocalContext.current
             NavScreen(appModule = AppModule(context))

@@ -38,10 +38,12 @@ kotlin {
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
                 implementation("com.squareup.sqldelight:coroutines-extensions:1.5.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
                 implementation("io.github.qdsfdhvh:image-loader:1.2.10")
                 api("dev.icerock.moko:mvvm-core:0.16.1")
                 api("dev.icerock.moko:mvvm-compose:0.16.1")
+
+                api("dev.icerock.moko:permissions:0.16.0")
+                api("dev.icerock.moko:permissions-compose:0.16.0")
             }
         }
         val androidMain by getting {
@@ -51,6 +53,11 @@ kotlin {
                 api("androidx.core:core-ktx:1.9.0")
                 implementation("com.google.zxing:core:3.4.1")
                 implementation("com.squareup.sqldelight:android-driver:1.5.5")
+
+                implementation("androidx.camera:camera-camera2:1.0.2")
+                implementation("androidx.camera:camera-lifecycle:1.0.2")
+                implementation("androidx.camera:camera-view:1.0.0-alpha31")
+                implementation("com.google.mlkit:barcode-scanning:16.1.0")
             }
         }
         val iosX64Main by getting
