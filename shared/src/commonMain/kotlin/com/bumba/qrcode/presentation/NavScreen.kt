@@ -50,7 +50,11 @@ fun NavScreen(appModule: AppModule, imagePicker: ImagePicker) {
     when (screenNavState.value) {
         is Screen.QrCodeViewerScreen -> QRCodeViewer(screenNavState)
         is Screen.HistoryScreen -> HistoryScreen(screenNavState, historyViewModel)
-        is Screen.QRCodeScanner -> QRCodeScannerScreen(screenNavState, imagePicker)
+        is Screen.QRCodeScanner -> QRCodeScannerScreen(
+            screenNavState = screenNavState,
+            imagePicker = imagePicker,
+            qrCodeHelper = appModule.qrCodeHelper
+        )
         else -> MainScreen(screenNavState, generator)
     }
 }
