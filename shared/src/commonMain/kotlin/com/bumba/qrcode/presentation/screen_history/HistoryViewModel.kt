@@ -19,7 +19,7 @@ class HistoryViewModel(
         viewModelScope.launch {
             try {
                 repository.getQrCodes().collect { qrCodeList ->
-                    state.value = HistoryState(qrCodes = qrCodeList)
+                    state.value = HistoryState(qrCodes = qrCodeList.sortedBy { it.createdAt })
                 }
             } catch (exception: Exception) {
                 state.value = HistoryState(

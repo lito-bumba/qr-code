@@ -39,7 +39,6 @@ actual fun QRCodeScanner(modifier: Modifier, onQrCodeScanned: (String) -> Unit) 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var preview by remember { mutableStateOf<Preview?>(null) }
-
     var hasCamPermission by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(

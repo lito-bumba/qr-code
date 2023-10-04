@@ -10,6 +10,11 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.core.content.FileProvider
 import com.bumba.qrcode.presentation.util.QRCodeSize
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.LuminanceSource
+import com.google.zxing.MultiFormatReader
+import com.google.zxing.RGBLuminanceSource
+import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.qrcode.QRCodeWriter
 import com.seiko.imageloader.asImageBitmap
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +37,17 @@ class QrCodeHelperImpl(private val context: Context) : QrCodeHelper {
             }
         }
         return bitmap.asImageBitmap()
+    }
+
+    override fun read(image: ImageBitmap): String {
+        val bmp = image.asAndroidBitmap()
+        val pixels = IntArray(bmp.width * bmp.height)
+        bmp.getPixels(pixels, 0, bmp.width, 0, 0, bmp.width, bmp.height)
+        val source: LuminanceSource = RGBLuminanceSource(bmp.width, bmp.height, pixels)
+        val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
+        val reader = MultiFormatReader()
+        val result = reader.decode(binaryBitmap)
+        return result.text
     }
 
     override suspend fun share(imageBitmap: ImageBitmap) {

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bumba.qrcode.presentation.util.Platform.ANDROID
 import com.bumba.qrcode.presentation.util.getPlatform
@@ -24,19 +25,15 @@ import com.bumba.qrcode.presentation.util.getPlatform
 fun CircularButton(
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean,
-    onClick: () -> Unit,
+    backgroundColor: Color,
+    onClick: () -> Unit
 ) {
     Box(
         modifier
             .size(60.dp)
             .clip(CircleShape)
-            .background(Color(25, 25, 28).copy(alpha = 0.7f))
-            .run {
-                if (enabled) {
-                    clickable { onClick() }
-                } else this
-            },
+            .background(backgroundColor)
+            .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
         content()
@@ -45,9 +42,11 @@ fun CircularButton(
 
 @Composable
 fun CircularButton(
-    imageVector: ImageVector,
+    backgroundColor: Color = Color(25, 25, 28).copy(alpha = 0.7f),
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    imageVector: ImageVector,
+    iconColor: Color = Color.White,
+    sizeIcon: Dp = 30.dp,
     onClick: () -> Unit,
 ) {
     CircularButton(
@@ -56,11 +55,11 @@ fun CircularButton(
             Icon(
                 imageVector = imageVector,
                 contentDescription = null,
-                modifier = Modifier.size(30.dp),
-                tint = Color.White
+                modifier = Modifier.size(sizeIcon),
+                tint = iconColor
             )
         },
-        enabled = enabled,
+        backgroundColor = backgroundColor,
         onClick = onClick
     )
 }

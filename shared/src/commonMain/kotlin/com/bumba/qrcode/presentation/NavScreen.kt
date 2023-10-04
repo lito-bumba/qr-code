@@ -8,10 +8,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import com.bumba.qrcode.di.AppModule
 import com.bumba.qrcode.presentation.screen_history.HistoryScreen
 import com.bumba.qrcode.presentation.screen_history.HistoryViewModel
-import com.bumba.qrcode.presentation.screen_qr_viewer.QRCodeViewer
 import com.bumba.qrcode.presentation.screen_main.MainScreen
 import com.bumba.qrcode.presentation.screen_main.QRGeneratorViewModel
+import com.bumba.qrcode.presentation.screen_qr_viewer.QRCodeViewer
 import com.bumba.qrcode.presentation.screen_scanner.QRCodeScannerScreen
+import com.bumba.qrcode.presentation.util.ImagePicker
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 
@@ -30,7 +31,7 @@ sealed interface Screen {
 }
 
 @Composable
-fun NavScreen(appModule: AppModule) {
+fun NavScreen(appModule: AppModule, imagePicker: ImagePicker) {
     val screenNavState: MutableState<Screen> = remember { mutableStateOf(Screen.MainScreen) }
     val generator = getViewModel(
         key = Unit,
@@ -49,7 +50,7 @@ fun NavScreen(appModule: AppModule) {
     when (screenNavState.value) {
         is Screen.QrCodeViewerScreen -> QRCodeViewer(screenNavState)
         is Screen.HistoryScreen -> HistoryScreen(screenNavState, historyViewModel)
-        is Screen.QRCodeScanner -> QRCodeScannerScreen(screenNavState)
+        is Screen.QRCodeScanner -> QRCodeScannerScreen(screenNavState, imagePicker)
         else -> MainScreen(screenNavState, generator)
     }
 }

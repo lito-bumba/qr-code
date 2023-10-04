@@ -9,8 +9,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -46,79 +46,97 @@ fun MainScreen(
                 }
             }
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                shape = RoundedCornerShape(20),
-                onClick = {
-                    screenNavState.value = Screen.QRCodeScanner
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Camera,
-                    contentDescription = "Camera Icon"
-                )
-            }
-        },
-        containerColor = Color.White
+        containerColor = Color.White.copy(alpha = .1f, red = .1f)
     ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(all = 16.dp),
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.BottomCenter
         ) {
-            OutlinedTextField(
-                value = inputText,
-                onValueChange = {
-                    inputText = it
-                    isInputTextError = inputText.isBlank()
-                },
-                label = { Text("texto", style = MaterialTheme.typography.titleMedium) },
-                textStyle = MaterialTheme.typography.titleMedium,
-                singleLine = false,
-                supportingText = {
-                    if (isInputTextError) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = "Texto não pode ser vázio",
-                            textAlign = TextAlign.Start,
-                            color = Color.Red
-                        )
-                    }
-                },
-                isError = isInputTextError,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(10)
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            Button(
-                onClick = {
-                    if (inputText.isBlank()) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(all = 16.dp),
+            ) {
+                OutlinedTextField(
+                    value = inputText,
+                    onValueChange = {
+                        inputText = it
                         isInputTextError = inputText.isBlank()
-                        return@Button
-                    }
+                    },
+                    label = { Text("texto", style = MaterialTheme.typography.titleLarge) },
+                    textStyle = MaterialTheme.typography.titleLarge,
+                    singleLine = false,
+                    supportingText = {
+                        if (isInputTextError) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = "Texto não pode ser vázio",
+                                textAlign = TextAlign.Start,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = Color.Red
+                            )
+                        }
+                    },
+                    isError = isInputTextError,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(10),
+                    colors = TextFieldDefaults.textFieldColors(
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                        textColor = Color.Black,
+                        containerColor = Color.Transparent,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                Button(
+                    onClick = {
+                        if (inputText.isBlank()) {
+                            isInputTextError = inputText.isBlank()
+                            return@Button
+                        }
 
-                    scope.launch {
-                        when (val qrCodeState =
-                            qrCodeViewModel.onNewQRCode(inputText).await()) {
-                            is QRGeneratorState.Error -> {}
-                            is QRGeneratorState.Success -> {
-                                screenNavState.value =
-                                    Screen.QrCodeViewerScreen(qrCodeState.qrCode) {
-                                        qrCodeViewModel.onShare(qrCodeState.qrCode)
-                                    }
+                        scope.launch {
+                            when (val qrCodeState =
+                                qrCodeViewModel.onNewQRCode(inputText).await()) {
+                                is QRGeneratorState.Error -> {}
+                                is QRGeneratorState.Success -> {
+                                    screenNavState.value =
+                                        Screen.QrCodeViewerScreen(qrCodeState.qrCode) {
+                                            qrCodeViewModel.onShare(qrCodeState.qrCode)
+                                        }
+                                }
                             }
                         }
-                    }
-                },
-                shape = RoundedCornerShape(25),
-                modifier = Modifier.height(50.dp).width(150.dp)
+                    },
+                    shape = RoundedCornerShape(25),
+                    modifier = Modifier.height(60.dp).fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Generate",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                }
+            }
+            Column(
+                modifier = Modifier.fillMaxHeight(.3f),
+                verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Generate",
-                    style = MaterialTheme.typography.titleLarge
-                )
+                FloatingActionButton(
+                    onClick = {
+                        screenNavState.value = Screen.QRCodeScanner
+                    },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(90.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.QrCodeScanner,
+                        contentDescription = null,
+                        modifier = Modifier.size(50.dp),
+                        tint = Color.White
+                    )
+                }
             }
         }
     }
@@ -149,7 +167,8 @@ private fun ScreenTopBar(onHistoryClick: () -> Unit) {
             ) {
                 CircularButton(
                     imageVector = Icons.Default.History,
-                    onClick = onHistoryClick
+                    onClick = onHistoryClick,
+                    backgroundColor = MaterialTheme.colorScheme.primary
                 )
             }
         },
