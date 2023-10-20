@@ -13,6 +13,11 @@ import CoreImage.CIFilterBuiltins
 
 class QRCodeHelperImpl: QRCodeHelperIos {
     
+    func read(image: UIImage) -> String {
+        return ""
+    }
+    
+    
     func generate(text: String, width: Int32, height: Int32) -> UIImage {
         let context = CIContext()
         let filter = CIFilter.qrCodeGenerator()
@@ -33,6 +38,5 @@ class QRCodeHelperImpl: QRCodeHelperIos {
         
         return UIImage(systemName: "xmark") ?? UIImage()
     }
-    
-    
+
 }

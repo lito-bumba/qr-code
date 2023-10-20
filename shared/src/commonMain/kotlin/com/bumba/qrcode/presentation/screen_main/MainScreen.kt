@@ -22,14 +22,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bumba.qrcode.presentation.Screen
 import com.bumba.qrcode.presentation.component.CircularButton
+import dev.icerock.moko.permissions.DeniedAlwaysException
+import dev.icerock.moko.permissions.DeniedException
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     screenNavState: MutableState<Screen>,
-    qrCodeViewModel: QRGeneratorViewModel
+    viewModel: QRGeneratorViewModel
 ) {
+    val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
+    val permissionsController = factory.createPermissionsController()
+    BindEffect(permissionsController)
     val scope = rememberCoroutineScope()
     var inputText by rememberSaveable { mutableStateOf("") }
     var isInputTextError by rememberSaveable { mutableStateOf(false) }
@@ -38,10 +47,10 @@ fun MainScreen(
         topBar = {
             ScreenTopBar {
                 screenNavState.value = Screen.HistoryScreen { info ->
-                    val qrCodeImage = qrCodeViewModel.onGenerate(info)
+                    val qrCodeImage = viewModel.onGenerate(info)
                     screenNavState.value =
                         Screen.QrCodeViewerScreen(qrCodeImage) {
-                            qrCodeViewModel.onShare(qrCodeImage)
+                            viewModel.onShare(qrCodeImage)
                         }
                 }
             }
@@ -99,12 +108,12 @@ fun MainScreen(
 
                         scope.launch {
                             when (val qrCodeState =
-                                qrCodeViewModel.onNewQRCode(inputText).await()) {
+                                viewModel.onNewQRCode(inputText).await()) {
                                 is QRGeneratorState.Error -> {}
                                 is QRGeneratorState.Success -> {
                                     screenNavState.value =
                                         Screen.QrCodeViewerScreen(qrCodeState.qrCode) {
-                                            qrCodeViewModel.onShare(qrCodeState.qrCode)
+                                            viewModel.onShare(qrCodeState.qrCode)
                                         }
                                 }
                             }
@@ -125,7 +134,16 @@ fun MainScreen(
             ) {
                 FloatingActionButton(
                     onClick = {
-                        screenNavState.value = Screen.QRCodeScanner
+                        scope.launch {
+                            try {
+                                permissionsController.providePermission(Permission.CAMERA)
+                                screenNavState.value = Screen.QRCodeScanner
+                            } catch (deniedAlways: DeniedAlwaysException) {
+
+                            } catch (denied: DeniedException) {
+
+                            }
+                        }
                     },
                     containerColor = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(90.dp)

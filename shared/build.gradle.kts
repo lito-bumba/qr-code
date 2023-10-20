@@ -41,6 +41,9 @@ kotlin {
                 implementation("io.github.qdsfdhvh:image-loader:1.2.10")
                 api("dev.icerock.moko:mvvm-core:0.16.1")
                 api("dev.icerock.moko:mvvm-compose:0.16.1")
+
+                api("dev.icerock.moko:permissions:0.16.0")
+                api("dev.icerock.moko:permissions-compose:0.16.0")
             }
         }
         val androidMain by getting {
