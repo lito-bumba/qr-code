@@ -20,6 +20,7 @@ import com.bumba.qrcode.presentation.component.QRCodeShimmer
 import com.bumba.qrcode.presentation.component.iconShare
 import com.bumba.qrcode.presentation.util.Platform
 import com.bumba.qrcode.presentation.util.getPlatform
+import com.bumba.qrcode.presentation.util.rememberBackHandler
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,5 +97,10 @@ fun QRCodeViewer(screenNavState: MutableState<Screen>) {
                 )
             }
         }
+    }
+
+    rememberBackHandler {
+        if (screenViewerState.isNew)
+            screenNavState.value = Screen.MainScreen
     }
 }

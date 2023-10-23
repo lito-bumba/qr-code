@@ -11,7 +11,7 @@ import com.bumba.qrcode.presentation.screen_history.HistoryViewModel
 import com.bumba.qrcode.presentation.screen_main.MainScreen
 import com.bumba.qrcode.presentation.screen_main.QRGeneratorViewModel
 import com.bumba.qrcode.presentation.screen_qr_viewer.QRCodeViewer
-import com.bumba.qrcode.presentation.screen_scanner.QRCodeScannerScreen
+import com.bumba.qrcode.presentation.screen_scanner.ScannerScreen
 import com.bumba.qrcode.presentation.util.ImagePicker
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
@@ -24,6 +24,7 @@ sealed interface Screen {
 
     data class QrCodeViewerScreen(
         val qrCodeImage: ImageBitmap,
+        val isNew: Boolean = true,
         val onShare: () -> Unit
     ) : Screen
 
@@ -50,11 +51,12 @@ fun NavScreen(appModule: AppModule, imagePicker: ImagePicker) {
     when (screenNavState.value) {
         is Screen.QrCodeViewerScreen -> QRCodeViewer(screenNavState)
         is Screen.HistoryScreen -> HistoryScreen(screenNavState, historyViewModel)
-        is Screen.QRCodeScanner -> QRCodeScannerScreen(
+        is Screen.QRCodeScanner -> ScannerScreen(
             screenNavState = screenNavState,
             imagePicker = imagePicker,
             qrCodeHelper = appModule.qrCodeHelper
         )
+
         else -> MainScreen(screenNavState, generator)
     }
 }

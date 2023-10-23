@@ -18,15 +18,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bumba.qrcode.presentation.component.BottomSheetFromWish
 
 @Composable
 fun QRResultScreen(
@@ -45,41 +44,47 @@ fun QRResultScreen(
             targetOffsetX = { it }
         )
     ) {
-        Column(
+        Surface(
+            shape = RoundedCornerShape(25.dp),
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary)
-                .fillMaxSize(.9f)
-                .clip(RoundedCornerShape(topEnd = 30.dp))
-                .padding(16.dp)
+                .fillMaxWidth(.92f)
+                .fillMaxHeight(.96f)
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Text(
-                    text = info,
-                    color = Color.Black,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .align(Alignment.TopStart)
-                        .padding(bottom = 76.dp)
-                )
-
-                Button(
-                    onClick = onClose,
-                    shape = RoundedCornerShape(25),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .height(60.dp)
-                ) {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primary)
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Box(modifier = Modifier.fillMaxSize()) {
                     Text(
-                        text = "Cancelar",
+                        text = info,
+                        color = Color.Black,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.SemiBold
+                        modifier = Modifier
+                            .verticalScroll(rememberScrollState())
+                            .align(Alignment.TopStart)
+                            .padding(bottom = 76.dp)
                     )
+
+                    Button(
+                        onClick = onClose,
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            contentColor = Color.Black
+                        ),
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .height(60.dp)
+                    ) {
+                        Text(
+                            text = "Cancelar",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                 }
             }
         }

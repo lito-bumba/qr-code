@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.bumba.qrcode.presentation.Screen
 import com.bumba.qrcode.presentation.component.BackButton
 import com.bumba.qrcode.presentation.component.BottomSheetFromWish
+import com.bumba.qrcode.presentation.util.rememberBackHandler
 import com.bumba.qrcode.presentation.util.toDateFormatted
 
 @Composable
@@ -40,6 +41,7 @@ fun HistoryScreen(
     viewModel: HistoryViewModel
 ) {
     val state = viewModel.state.value
+
     BottomSheetFromWish(
         visible = true,
         modifier = Modifier.fillMaxWidth()
@@ -115,5 +117,9 @@ fun HistoryScreen(
                 screenNavState.value = Screen.MainScreen
             }
         }
+    }
+
+    rememberBackHandler {
+        screenNavState.value = Screen.MainScreen
     }
 }

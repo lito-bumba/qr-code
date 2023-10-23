@@ -29,17 +29,24 @@ import com.bumba.qrcode.presentation.Screen
 import com.bumba.qrcode.presentation.component.BackButton
 import com.bumba.qrcode.presentation.component.CircularButton
 import com.bumba.qrcode.presentation.util.ImagePicker
+import com.bumba.qrcode.presentation.util.rememberBackHandler
 import com.bumba.qrcode.presentation.util.toImageBitmap
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
 
 @Composable
-fun QRCodeScannerScreen(
+fun ScannerScreen(
     screenNavState: MutableState<Screen>,
     imagePicker: ImagePicker,
     qrCodeHelper: QrCodeHelper
 ) {
-    var textFromQrCode by rememberSaveable { mutableStateOf("") }
+    val viewModel = getViewModel(
+        key = Unit,
+        factory = viewModelFactory { ScannerViewModel(qrCodeHelper) }
+    )
+
     imagePicker.registerPicker { imageBytes ->
-        textFromQrCode = qrCodeHelper.read(imageBytes.toImageBitmap())
+        viewModel.readQrCode(imageBytes.toImageBitmap())
     }
 
     Box(
@@ -47,7 +54,7 @@ fun QRCodeScannerScreen(
         contentAlignment = Alignment.Center
     ) {
         QRCodeScanner(Modifier.fillMaxSize()) {
-            textFromQrCode = it
+            viewModel.setText(it)
         }
         Column(
             modifier = Modifier.fillMaxSize().padding(16.dp),
@@ -56,23 +63,6 @@ fun QRCodeScannerScreen(
             BackButton {
                 screenNavState.value = Screen.MainScreen
             }
-
-            /*if (textFromQrCode.isNotBlank()) {
-                Card(
-                    shape = RoundedCornerShape(15.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = .5f)
-                    ),
-                    modifier = Modifier.fillMaxWidth().fillMaxHeight(.4f)
-                ) {
-                    Text(
-                        text = textFromQrCode,
-                        color = Color.Black,
-                        style = MaterialTheme.typography.displayMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }*/
 
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -89,7 +79,7 @@ fun QRCodeScannerScreen(
                     modifier = Modifier.size(80.dp)
                 ) {
                     isLightOn = !isLightOn
-                    textFromQrCode = "QR Code Text result"
+                    viewModel.setText("QR Code Text result")
                 }
                 Spacer(Modifier.width(32.dp))
                 CircularButton(
@@ -104,10 +94,19 @@ fun QRCodeScannerScreen(
             }
         }
         QRResultScreen(
-            textFromQrCode,
-            textFromQrCode.isNotBlank()
+            info = viewModel.textFromQrCode,
+            isVisible = viewModel.textFromQrCode.isNotBlank()
         ) {
-            textFromQrCode = ""
+            viewModel.setText()
         }
+    }
+
+    rememberBackHandler {
+        if (viewModel.textFromQrCode.isNotBlank()) {
+            viewModel.setText("")
+            return@rememberBackHandler
+        }
+
+        screenNavState.value = Screen.MainScreen
     }
 }

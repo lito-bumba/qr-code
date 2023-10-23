@@ -20,7 +20,7 @@ class ScannerViewModel(
         }
     }
 
-    fun clearText() {
-        textFromQrCode = ""
+    fun setText(text: String = "") {
+        textFromQrCode = text
     }
 }
