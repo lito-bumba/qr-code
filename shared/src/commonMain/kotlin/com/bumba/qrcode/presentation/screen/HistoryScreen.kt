@@ -1,4 +1,4 @@
-package com.bumba.qrcode.presentation.screen_history
+package com.bumba.qrcode.presentation.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,19 +17,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bumba.qrcode.presentation.Screen
 import com.bumba.qrcode.presentation.component.BackButton
 import com.bumba.qrcode.presentation.component.BottomSheetFromWish
 import com.bumba.qrcode.presentation.util.rememberBackHandler
@@ -37,14 +37,12 @@ import com.bumba.qrcode.presentation.util.toDateFormatted
 
 @Composable
 fun HistoryScreen(
-    screenNavState: MutableState<Screen>,
-    viewModel: HistoryViewModel
+    state: QRCodeState,
+    onEvent: (QRCodeEvent) -> Unit
 ) {
-    val state = viewModel.state.value
-
     BottomSheetFromWish(
-        visible = true,
-        modifier = Modifier.fillMaxWidth()
+        visible = state.isHistoryVisible,
+        modifier = Modifier.fillMaxSize()
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -55,7 +53,16 @@ fun HistoryScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                if (state.isError) {
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = 10.dp,
+                        modifier = Modifier.size(200.dp)
+                    )
+                    return@Box
+                }
+
+                if (state.error.isNotBlank()) {
                     Icon(
                         imageVector = Icons.Default.Warning,
                         contentDescription = "Error",
@@ -63,7 +70,7 @@ fun HistoryScreen(
                         tint = Color.Red
                     )
                     Text(
-                        text = state.errorMessage,
+                        text = state.error,
                         color = Color.Red,
                         fontSize = 16.sp
                     )
@@ -72,7 +79,7 @@ fun HistoryScreen(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "Refresh",
                         modifier = Modifier.size(60.dp)
-                            .clickable { viewModel.fetchAll() }
+                            .clickable { onEvent(QRCodeEvent.GetHistory) }
                     )
                     return@Box
                 }
@@ -85,8 +92,7 @@ fun HistoryScreen(
                             modifier = Modifier.fillMaxWidth()
                                 .padding(start = 8.dp)
                                 .clickable {
-                                    (screenNavState.value as Screen.HistoryScreen)
-                                        .onGenerate(qrCode.info)
+                                    onEvent(QRCodeEvent.Generate(qrCode.info, false))
                                 }
                         ) {
                             Text(
@@ -99,27 +105,31 @@ fun HistoryScreen(
                             IconButton(
                                 onClick = {
                                     qrCode.id?.let { qrCodeId ->
-                                        viewModel.deleteQrCode(qrCodeId)
+                                        onEvent(QRCodeEvent.DeleteHistory(qrCodeId))
                                     }
                                 }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
-                                    contentDescription = "delete"
+                                    contentDescription = "delete",
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
                             }
                         }
-                        Divider()
+                        Divider(color = MaterialTheme.colorScheme.primary)
                     }
                 }
             }
-            BackButton {
-                screenNavState.value = Screen.MainScreen
+            BackButton(
+                background = MaterialTheme.colorScheme.primary,
+                iconColor = Color.White
+            ) {
+                onEvent(QRCodeEvent.BackToMain)
             }
         }
     }
 
     rememberBackHandler {
-        screenNavState.value = Screen.MainScreen
+        onEvent(QRCodeEvent.BackToMain)
     }
 }

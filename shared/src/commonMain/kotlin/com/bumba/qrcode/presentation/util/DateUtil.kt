@@ -8,7 +8,7 @@ fun Long.toDateFormatted(): String {
     val date = Instant.fromEpochMilliseconds(this)
     val dateTime = date.toLocalDateTime(TimeZone.currentSystemDefault())
     return "${dateTime.dayOfMonth.toTwoNumbers()}/${dateTime.monthNumber.toTwoNumbers()}/" +
-            dateTime.year + " ${dateTime.hour.toTwoNumbers()}:${dateTime.minute.toTwoNumbers()}" +
+            dateTime.year + " ${dateTime.hour.toTwoNumbers()}:${dateTime.minute.toTwoNumbers()}:" +
             dateTime.second.toTwoNumbers()
 }
 

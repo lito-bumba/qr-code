@@ -7,7 +7,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,11 +29,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun QRResultScreen(
     info: String,
-    isVisible: Boolean,
     onClose: () -> Unit
 ) {
     AnimatedVisibility(
-        visible = isVisible,
+        visible = info.isNotBlank(),
         enter = slideInHorizontally(
             animationSpec = tween(durationMillis = 300),
             initialOffsetX = { it }
@@ -46,9 +44,7 @@ fun QRResultScreen(
     ) {
         Surface(
             shape = RoundedCornerShape(25.dp),
-            modifier = Modifier
-                .fillMaxWidth(.92f)
-                .fillMaxHeight(.96f)
+            modifier = Modifier.fillMaxSize()
         ) {
             Column(
                 modifier = Modifier

@@ -65,6 +65,21 @@ fun CircularButton(
 }
 
 @Composable
+fun BackButton(
+    background: Color,
+    iconColor: Color,
+    onClick: () -> Unit
+) {
+    CircularButton(
+        backgroundColor = background,
+        iconColor = iconColor,
+        imageVector = if (getPlatform() == ANDROID)
+            Icons.Default.ArrowBack else Icons.Default.ArrowBackIosNew,
+        onClick = onClick
+    )
+}
+
+@Composable
 fun BackButton(onClick: () -> Unit) {
     CircularButton(
         imageVector = if (getPlatform() == ANDROID)

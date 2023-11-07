@@ -5,7 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.LocalContext
 import com.bumba.qrcode.di.AppModule
-import com.bumba.qrcode.presentation.NavScreen
+import com.bumba.qrcode.presentation.MainScreen
 import com.bumba.qrcode.presentation.util.ImagePickerFactory
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val context = LocalContext.current
-            NavScreen(appModule = AppModule(context), ImagePickerFactory().createPicker())
+            MainScreen(appModule = AppModule(context), ImagePickerFactory().createPicker())
         }
     }
 }
